@@ -146,11 +146,11 @@ class _issueCertificateState extends State<issueCertificate> {
                            String result2 = await ApiServices().postresponseforpdf(json.encode(mydata2));
                           print("result2  ${result2} ");
 
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //       builder: (context) => CertificateDownload(certificateData: result2,),
-                          //     ));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CertificateDownload(certificateData: result2,),
+                              ));
                         },
                         icon: const Icon(Icons.add),
                         label: const Text('Generate Certificate')

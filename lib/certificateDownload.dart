@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_html/flutter_html.dart';
+ import 'package:flutter_html/flutter_html.dart';
 
 
 class CertificateDownload extends StatefulWidget {
@@ -23,7 +23,7 @@ class _CertificateDownloadState extends State<CertificateDownload> {
           title: Text("Certificate"),
         ),
         body:SingleChildScrollView(
-          child: Text("data: cfData,"),
+          child: Html(data: cfData),
         )
     );
   }
