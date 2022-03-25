@@ -20,7 +20,7 @@ class _CertificateDownloadState extends State<CertificateDownload> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Certificate"),
+          title: const Text("Certificate"),
         ),
         body:SingleChildScrollView(
           child: Html(data: cfData),

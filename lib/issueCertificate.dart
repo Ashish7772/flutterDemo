@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:demo/ApiService.dart';
 import 'package:demo/certificateDownload.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 
 class issueCertificate extends StatefulWidget {
