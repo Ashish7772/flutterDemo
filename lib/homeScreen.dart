@@ -1,3 +1,4 @@
+import 'package:demo/verifyCertificate.dart';
 import 'package:flutter/material.dart';
 
 import 'issueCertificate.dart';
@@ -55,19 +56,28 @@ class _homeScreenState extends State<homeScreen> {
               width: double.infinity,
               // color: Colors.blueAccent,
               child: Card(
+                child: new InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ScanQrPage(),
+                        ));
+                  } ,
+                  child:  const Center(
+                    child: Text("Verify a Certificate",
+                      style: TextStyle(color: Colors.white,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold
+                      ),
+                    ),
+                  ),
+                ),
                 color: Colors.blueAccent,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)
                 ),
                 elevation: 50.0,
-                margin: EdgeInsets.all(10.0),
-                child: const Center(
-                  child: Text("Verify a Certificate",
-                    style: TextStyle(color: Colors.white,
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold
-                    ),
-                  ),
-                ),
+                margin: EdgeInsets.only(left: 10.0,right: 10.0,bottom: 25.0),
               ),
             ),
           ],
