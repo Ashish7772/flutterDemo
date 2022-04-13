@@ -14,6 +14,7 @@ class issueCertificate extends StatefulWidget {
 
 class _issueCertificateState extends State<issueCertificate> {
    DateTime selectedDate = DateTime.now() ;
+   String showDate = "Select a Date";
    final TextEditingController membershipController = TextEditingController();
    final TextEditingController registrationController = TextEditingController();
    final TextEditingController serialController = TextEditingController();
@@ -29,8 +30,8 @@ class _issueCertificateState extends State<issueCertificate> {
         ),
         body: SingleChildScrollView(
           child: Container(
-            decoration: BoxDecoration(color: Colors.white),
-            padding: new EdgeInsets.all(20.0),
+            decoration: const BoxDecoration(color: Colors.white),
+            padding: const EdgeInsets.all(20.0),
             child: Column(
               children: <Widget>[
                 textfieldDesign("Membership Number",membershipController),
@@ -61,7 +62,7 @@ class _issueCertificateState extends State<issueCertificate> {
                       backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
                     ),
                       onPressed: () {
-                        print('enter');
+
                         showDatePicker(
                           context: context,
                           initialDate: DateTime.now(),
@@ -71,10 +72,12 @@ class _issueCertificateState extends State<issueCertificate> {
                         ).then((value){
                           setState(() {
                             selectedDate = value!;
+                            showDate = selectedDate.toString().split(' ')[0];
+                            print(selectedDate);
                           });
                         });
                       },
-                      child: Text('$selectedDate'.split(' ')[0],
+                      child: Text(showDate,
                       style: const TextStyle(color: Colors.white,
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
@@ -98,13 +101,13 @@ class _issueCertificateState extends State<issueCertificate> {
                         onPressed: ()async{
                           var mydata = {
                             "data": {
-                              "certificateType": "ProofOfEduation",
-                              "membershipNum": "MEM001",
-                              "registrationNum": "REG10001",
-                              "serialNum": "1",
-                              "bcName": "Merry D.",
-                              "bcExam": "Banking & Insurance Exam",
-                              "date": "2000-02-16T00:00:00.000Z"
+                              "certificateType": "ProofOfEducation",
+                              "membershipNum": membershipController.text,
+                              "registrationNum": registrationController.text,
+                              "serialNum": serialController.text,
+                              "bcName": nameController.text,
+                              "bcExam": examController.text,
+                              "date": "${selectedDate.toIso8601String().toString()}Z"
                             },
                             "credentialTemplate": {
                               "@context": [
@@ -114,35 +117,69 @@ class _issueCertificateState extends State<issueCertificate> {
                               "type": [
                                 "VerifiableCredential"
                               ],
-                              "issuanceDate": "2022-03-16T16:00:00.000Z",
+                              "issuanceDate": "${selectedDate.toIso8601String().toString()}Z",
                               "credentialSubject": {
                                 "type": "Person",
-                                "name": "{{Merry D.}}"
+                                "name": nameController.text
                               },
                               "evidence": [
                                 {
                                   "type": [
                                     "Certificate"
                                   ],
-                                  "certificateType": "ProofOfEduation",
-                                  "membershipNum": "MEM001",
-                                  "registrationNum": "REG10001",
-                                  "serialNum": "1",
-                                  "bcName": "Merry D.",
-                                  "bcExam": "Banking & Insurance Exam",
-                                  "date": "2000-02-16T00:00:00.000Z"
+                                  "certificateType": "ProofOfEducation",
+                                  "membershipNum": membershipController.text,
+                                  "registrationNum": registrationController.text,
+                                  "serialNum": serialController.text,
+                                  "bcName": nameController.text,
+                                  "bcExam": examController.text,
+                                  "date": "${selectedDate.toIso8601String().toString()}Z"
                                 }
                               ],
                               "issuer": "did:issuer:protean"
                             }
                           };
                           var mydata2 = {
-                            "certificate":"{\"@context\":[\"https://www.w3.org/2018/credentials/v1\",\"https://gist.githubusercontent.com/rashmigandre/31e21b34d7ae174e64b6809db63da3b3/raw/4edff5ccd9d8213e215ce60f088245c7038faaae/proof-of-education-vc.json\"],\"type\":[\"VerifiableCredential\"],\"issuanceDate\":\"2022-03-10T16:00:00.000Z\",\"credentialSubject\":{\"type\":\"Person\",\"name\":\"DemoCandidate\"},\"evidence\":[{\"type\":[\"Certificate\"],\"certificateType\":\"ProofOfEduation\",\"educationLevel\":\"Graduate\",\"rollNumber\":\"54735\",\"passingYear\":\"2020\",\"board\":\"Mumbai\",\"school\":\"XYZCollege\",\"percentage\":\"80\",\"dob\":\"2000-08-27T00:00:00.000Z\"}],\"issuer\":\"did:issuer:protean\",\"proof\":{\"type\":\"Ed25519Signature2018\",\"created\":\"2022-03-10T11:18:09Z\",\"verificationMethod\":\"did:india\",\"proofPurpose\":\"assertionMethod\",\"jws\":\"eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..elW9i1pKniEdv-i-RRVQwGDRWrdOUhF57rBlXAD-23VeenfVs8Rqw560pns43P8yyOVNktAF_vLKbKiSVks1BQ\"}}",
-                            "templateUrl":"https://gist.githubusercontent.com/rashmigandre/b3a2e6b690346f284b979b54934b1f99/raw/643282605b4d1dd5f0596e22214dfc553c4596b8/ProofOfEducation.html"
-                          };
-                           String result = await ApiServices().postData(json.encode(mydata));
-                          print("result  ${json.decode(result)} ");
-                           String result2 = await ApiServices().postresponseforpdf(json.encode(mydata2));
+                              "@context":[
+                                "https://www.w3.org/2018/credentials/v1",
+                              "https://gist.githubusercontent.com/rashmigandre/31e21b34d7ae174e64b6809db63da3b3/raw/fe26ccb438d5841c684f312e429b9bf2bbaf5659/proof-of-education-vc.json"
+                            ],
+                            "type":[
+                              "VerifiableCredential"
+                            ],
+                            "issuanceDate":"2022-03-16T16:00:00.000Z",
+                            "credentialSubject":{
+                                "type":"Person",
+                            "name":nameController.text
+                            },
+                            "evidence":[
+                              {
+                                "type":[
+                                  "Certificate"
+                          ],
+                          "certificateType":"ProofOfEducation",
+                          "membershipNum":membershipController.text,
+                          "registrationNum":registrationController.text,
+                          "serialNum":serialController.text,
+                          "bcName":nameController.text,
+                          "bcExam":examController.text,
+                          "date":"2000-02-16T00:00:00.000Z"
+                              }
+                              ],
+                            "issuer":"did:issuer:protean",
+                            "proof":{
+                                "type":"Ed25519Signature2018",
+                            "created":"2022-03-16T07:19:26Z",
+                            "verificationMethod":"did:india",
+                            "proofPurpose":"assertionMethod",
+                            "jws":"eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..apqLzyLsVMEf9Z69vgQIhB-KIZNpgeRbfJTE-I89hfOuyjUZQKn9aXAQH3iJ5siUeS3n6htskVe0Kp3msWqNCg"
+                              }
+                            };
+
+
+                           String result = await ApiServices().postData(mydata);
+                    //      print("result  ${json.decode(result)} ");
+                           String result2 = await ApiServices().postresponseforpdf(json.encode(result));
                           print("result2  ${result2} ");
 
                           Navigator.push(

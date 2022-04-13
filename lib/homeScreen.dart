@@ -15,7 +15,7 @@ class _homeScreenState extends State<homeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Demo App"),
+        title: const Text("Protean RC"),
       ),
       body: Center(
         child: Column(
@@ -27,7 +27,7 @@ class _homeScreenState extends State<homeScreen> {
               width: double.infinity,
               // color: Colors.blueAccent,
               child: Card(
-                child: new InkWell(
+                child:  InkWell(
                     onTap: () {
                       Navigator.push(
                           context,
@@ -35,7 +35,7 @@ class _homeScreenState extends State<homeScreen> {
                             builder: (context) => issueCertificate(),
                           ));
                     } ,
-                  child:  Center(
+                  child:  const Center(
                     child: Text("Issue a Certificate",
                     style: TextStyle(color: Colors.white,
                     fontSize: 20.0,
@@ -56,7 +56,7 @@ class _homeScreenState extends State<homeScreen> {
               width: double.infinity,
               // color: Colors.blueAccent,
               child: Card(
-                child: new InkWell(
+                child: InkWell(
                   onTap: () {
                     Navigator.push(
                         context,
