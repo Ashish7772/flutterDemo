@@ -1,5 +1,7 @@
 import 'package:demo/verifyCertificate.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'issueCertificate.dart';
 
@@ -15,74 +17,154 @@ class _homeScreenState extends State<homeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Protean RC"),
+        backgroundColor: Colors.white,
+        elevation: 2,
+        systemOverlayStyle: const SystemUiOverlayStyle( // for status bar colors
+          // Status bar color
+          statusBarColor: Colors.white,
+
+          // Status bar brightness (optional)
+          statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
+          statusBarBrightness: Brightness.light, // For iOS (dark icons)
+        ),
+        title :Row(  // AppBar Design
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Image.asset('assets/images/protean-rc-logo.png',
+              height: 150,
+              width: 180,),
+            Image.asset('assets/images/iibf-logo-2.png',
+              height: 80,
+              width: 150,),
+          ],
+        ),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
-              height: 200,
-              width: double.infinity,
-              // color: Colors.blueAccent,
-              child: Card(
-                child:  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => issueCertificate(),
-                          ));
-                    } ,
-                  child:  const Center(
-                    child: Text("Issue a Certificate",
-                    style: TextStyle(color: Colors.white,
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold
-                    ),
-                    ),
-                  ),
-                ),
-                color: Colors.blueAccent,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)
-                ),
-                elevation: 50.0,
-                margin: EdgeInsets.only(left: 10.0,right: 10.0,bottom: 25.0),
-              ),
-            ),
-            Container(
-              height: 200,
-              width: double.infinity,
-              // color: Colors.blueAccent,
-              child: Card(
-                child: InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ScanQrPage(),
-                        ));
-                  } ,
-                  child:  const Center(
-                    child: Text("Verify a Certificate",
-                      style: TextStyle(color: Colors.white,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold
-                      ),
-                    ),
-                  ),
-                ),
-                color: Colors.blueAccent,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)
-                ),
-                elevation: 50.0,
-                margin: EdgeInsets.only(left: 10.0,right: 10.0,bottom: 25.0),
-              ),
-            ),
+            cardViewDesign2("    Issue \nCertificate",'assets/images/certificate.png'),  // Cardview Design 1
+            cardViewDesign("    Verify \nCertificate",'assets/images/quality.png'),  // CardView Design 2
           ],
         ),
       ),
     );
+  }
+  cardViewDesign(String text,String imagePath)
+  {
+    return  Container(
+      width:  MediaQuery.of(context).size.height*0.4,
+      height: MediaQuery.of(context).size.height*0.25,
+      padding: const EdgeInsets.all(10.0),
+
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ScanQrPage(),
+              ));
+        } ,
+        child: Card(
+
+          shape:
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+            side: BorderSide(
+              color: Colors.grey.withOpacity(0.2),
+              width: 2,
+            ),
+          ),
+          color: Colors.white,
+          elevation: 8,
+          child: Stack(
+            children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 12.0),
+              child: Image.asset('assets/images/ribbon.png',
+              height: MediaQuery.of(context).size.height*0.09,
+              width:  MediaQuery.of(context).size.height*0.05,),
+            ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children:  [
+                      Text(text,
+                      style: const TextStyle(color: Colors.grey,fontSize: 25,fontWeight: FontWeight.bold),)
+                    ],
+                  ),
+                ],
+              ),
+              Align(
+                  alignment: Alignment.bottomRight,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 5.0,bottom: 5.0),
+                    child: Image.asset(imagePath),
+                  ))
+            ],
+          )
+        ),
+      ),
+    ) ;
+  }
+  cardViewDesign2(String text,String imagePath)
+  {
+    return  Container(
+      width:  MediaQuery.of(context).size.height*0.4,
+      height: MediaQuery.of(context).size.height*0.25,
+      padding: const EdgeInsets.all(10.0),
+
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => issueCertificate(),
+              ));
+        } ,
+        child: Card(
+            shape:
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+              side: BorderSide(
+                color: Colors.grey.withOpacity(0.2),
+                width: 2,
+              ),
+            ),
+            color: Colors.white,
+             elevation: 8,
+            child: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 12.0),
+                  child: Image.asset('assets/images/ribbon.png',
+                    height: MediaQuery.of(context).size.height*0.09,
+                    width:  MediaQuery.of(context).size.height*0.05,),
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children:  [
+                        Text(text,
+                          style: const TextStyle(color: Colors.grey,fontSize: 25,fontWeight: FontWeight.bold),)
+                      ],
+                    ),
+                  ],
+                ),
+                Align(
+                    alignment: Alignment.bottomRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 5.0,bottom: 5.0),
+                      child: Image.asset(imagePath),
+                    ))
+              ],
+            )
+        ),
+      ),
+    ) ;
   }
 }

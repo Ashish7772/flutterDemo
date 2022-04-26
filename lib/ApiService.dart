@@ -6,23 +6,24 @@ import 'package:http/http.dart' as http;
 
 class ApiServices{
 
-  String url = "http://192.168.1.40:4324/sign";
-  String url2 = "http://192.168.1.40:4322/api/v1/certificate";
-  String url3 = "http://192.168.1.40:4322/api/v1/unzip/certificate";
-  var url4 = "http://192.168.1.40:4324/verify";
-  Future postData(data)async{
+  String url = "http://192.168.202.80:4324/sign";
+  String url2 = "http://192.168.202.80:4322/api/v1/certificate";
+  String url3 = "http://192.168.202.80:4322/api/v1/unzip/certificate";
+  var url4 = "http://192.168.202.80:4324/verify";
+  Future postData(data)async{  // Prepare Data for certification creation Api
   var data1 = json.encode(data);
-    // print("111111");
-    // print(data1);
+     print("Create Certificate sent Data");
+     print(data1);
     var response = await http.post(Uri.parse(url),body: data1);
-  //  print(" ${response.body.toString()} ");
+  print("Create Certificate Response Data");
+  print(response.body.toString());
     return response.body.toString();
   }
   Map<String, String> headers = {
     "Accept": "text/html",
   };
-  Future postresponseforpdf(data2)async{
-    const tempUrl = '"https://gist.githubusercontent.com/rashmigandre/b3a2e6b690346f284b979b54934b1f99/raw/718dbc010b7d8cdb9da4d56ad7d413e365a00932/ProofOfEducation.html"';
+  Future postresponseforpdf(data2)async{   // create certificate api
+    const tempUrl = '"https://gist.githubusercontent.com/rashmigandre/b3a2e6b690346f284b979b54934b1f99/raw/5b62ca9a759c4177a7bc60fa93370d575100a278/ProofOfEducation.html"';
 
     var mainData = {
       '"certificate"' :
@@ -30,20 +31,25 @@ class ApiServices{
       '"templateUrl"': tempUrl
     };
 
-    // print("AAAA");
-    // print(mainData);
+    print("Certificate Show Sent Data");
+    print(mainData);
 
     http.Response response2 = await http.post(Uri.parse(url2),body: mainData.toString(),headers:headers);
-    print(" ${(response2.body.toString())} ");
+    print("Certificate Show Response Data");
+    print(response2.body.toString());
     return response2.body.toString();
   }
   Map<String, String> headers2 = {
     "Content-Type": "text/html",
     "Accept": "text/html",
   };
-  Future postResponseForUnzip(data3)async{
+  Future postResponseForUnzip(data3)async{   // Decode zip file data api
+
+    print("Unzip Certificate Sent Data");
+    print(data3);
     var response3 = await http.post(Uri.parse(url3),body: data3,headers:headers2);
-   // print(" ${json.decode(response3.body)} ");
+    print("Unzip Certificate Response Data");
+    print(data3);
     return response3.body.toString();
   }
 
@@ -51,9 +57,13 @@ class ApiServices{
   //  "Content-Type": "application/json",
     "Content-Length": "1282"
   };
-  Future postResponseForVerifyData(data3)async{
+  Future postResponseForVerifyData(data3)async{    // Api for QR code Verification
+
+    print("Certificate Verification Sent Data");
+    print(data3);
     http.Response response4 = await http.post(Uri.parse(url4),body: data3.toString());
-    // print(" ${json.decode(response3.body)} ");
+    print("Certificate Verification Response Data");
+    print(response4.body.toString());
     return response4.body.toString();
   }
 }
