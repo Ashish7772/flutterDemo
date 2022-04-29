@@ -34,7 +34,7 @@ class _bulkUploadState extends State<bulkUpload> {
         child: Column(
             children: <Widget>[
               ElevatedButton(onPressed: (){
-                pickfile(),
+
               }, child:const Text("Upload File"))
 
             ],
@@ -43,20 +43,20 @@ class _bulkUploadState extends State<bulkUpload> {
     );
 
   }
-
-  pickFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
-    if (result != null) {
-      PlatformFile file = result.files.first;
-
-      final input = File(file.path).openRead();
-      final fields = await input
-          .transform(utf8.decoder)
-          .transform(new CsvToListConverter())
-          .toList();
-
-      print(fields);
-    }
-  }
+  //
+  // pickFile() async {
+  //   FilePickerResult? result = await FilePicker.platform.pickFiles();
+  //   if (result != null) {
+  //     PlatformFile file = result.files.first;
+  //
+  //     final input = File(file.path).openRead();
+  //     final fields = await input
+  //         .transform(utf8.decoder)
+  //         .transform(new CsvToListConverter())
+  //         .toList();
+  //
+  //     print(fields);
+  //   }
+  // }
 
 }
