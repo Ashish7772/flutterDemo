@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:demo/ApiService.dart';
+import 'package:demo/bulkUpload.dart';
 import 'package:demo/certificateDownload.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -42,11 +44,20 @@ class _issueCertificateState extends State<issueCertificate> {
           statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
           statusBarBrightness: Brightness.light, // For iOS (dark icons)
         ),
-        title: const Text("Issue a Certificate"),
+        title: const Text("Issue Certificate",
+            style: TextStyle(color: Colors.white,
+              fontSize: 20.0,)
+        ),
       ),
       body: SingleChildScrollView(
         child: Container(
-          decoration: const BoxDecoration(color: Colors.white),
+          height : MediaQuery.of(context).size.height,
+          decoration:  const BoxDecoration(color: Colors.white ,
+            image: DecorationImage(
+              image: AssetImage("assets/images/bg1.jpg"),
+              fit: BoxFit.cover,
+            ),
+          ),
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: <Widget>[
@@ -73,49 +84,63 @@ class _issueCertificateState extends State<issueCertificate> {
               SizedBox(
                 height: 53,
                 width: double.infinity,
-                child: TextButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-                    ),
-                    onPressed: () {
+                child: Container(
+                    alignment: Alignment.centerLeft,
+                    child: TextField(
+                      readOnly: true,
 
-                      showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(2000),
-                        lastDate: (new DateTime.now()).add(new Duration(days: 7)
+                      //  onChanged: (value) {trxnProvider.changecontractDate(value);
+                        //,loggedInUid);},
+                        decoration: InputDecoration(
+                          hintText: showDate,
+                          hintStyle: const TextStyle(
+                            color: Colors.black,
+                          ),
+                          border: OutlineInputBorder(),
+                          focusedBorder:const OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.blue, width: 2.0),
+
+                          ),
+                          suffixIcon: IconButton(
+                            icon: const Icon(
+                              Icons.calendar_today,
+                            ),
+
+                            onPressed: () {
+                              showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(2000),
+                                lastDate: (new DateTime.now()).add(new Duration(days: 7)
+                                ),
+                              ).then((value){
+                                setState(() {
+                                  selectedDate = value!;
+                                  showDate = selectedDate.toString().split(' ')[0];
+                                  print(selectedDate);
+                                });
+                              });
+                            },
+                          ),
                         ),
-                      ).then((value){
-                        setState(() {
-                          selectedDate = value!;
-                          showDate = selectedDate.toString().split(' ')[0];
-                          print(selectedDate);
-                        });
-                      });
-                    },
-                    child: Text(showDate,
-                      style: const TextStyle(color: Colors.white,
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                      ),textAlign: TextAlign.start,
-                    )
-                ),
+                          ),
+                              ),
               ),
               const SizedBox(
                 height: 20,
               ),
-              imageUploadDesign("Upload Image File"),
-              imageUploadDesign1("Upload Signature of Authority1"),
-              imageUploadDesign2("Upload Signature of Authority2"),
+              // imageUploadDesign("Upload Image File"),
+              // imageUploadDesign1("Upload Signature of Authority1"),
+              // imageUploadDesign2("Upload Signature of Authority2"),
               const SizedBox(
                 height: 20,
               ),
               Padding(
-                padding: const EdgeInsets.all(5.0),
+                padding: const EdgeInsets.only(bottom:5.0),
                 child: SizedBox(
                   height: 53,
                   width: double.infinity,
-                  child: ElevatedButton.icon(
+                  child: ElevatedButton(
                       onPressed: ()async{
                         var mydata = {
                           "data": {
@@ -170,19 +195,29 @@ class _issueCertificateState extends State<issueCertificate> {
                               builder: (context) => CertificateDownload(certificateData: result2,),
                             ));
                       },
-                      icon: const Icon(Icons.add),
-                      label: const Text('Generate Certificate')
+
+                      child: const Text('Generate Certificate',
+                          style: TextStyle(color: Colors.white,
+                        fontSize: 20.0,))
                   ),
                 ),
-              )
+              ),
+              TextButton(onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const bulkUpload(),
+                    ));
+              },
+                child: const Text("Bulk Upload"),)
             ],
+
           ),
 
         ),
       ),
     );
   }
-
   imageUploadDesign(String imageHint)
   {
     return Column(

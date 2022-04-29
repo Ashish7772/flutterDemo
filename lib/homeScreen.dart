@@ -30,22 +30,32 @@ class _homeScreenState extends State<homeScreen> {
         title :Row(  // AppBar Design
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Image.asset('assets/images/protean-rc-logo.png',
-              height: 150,
-              width: 180,),
+            Image.asset('assets/images/protean_logo.png',
+              height: 90,
+              width: 150,),
             Image.asset('assets/images/iibf-logo-2.png',
               height: 80,
               width: 150,),
           ],
         ),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            cardViewDesign2("    Issue \nCertificate",'assets/images/certificate.png'),  // Cardview Design 1
-            cardViewDesign("    Verify \nCertificate",'assets/images/quality.png'),  // CardView Design 2
-          ],
+      body: Container(
+
+        decoration:  const BoxDecoration(color: Colors.white ,
+          image: DecorationImage(
+            image: AssetImage("assets/images/bg1.jpg"),
+            fit: BoxFit.cover,
+          ),
+        ),
+
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              cardViewDesign2("    Issue \nCertificate",'assets/images/certificate.png'),  // Cardview Design 1
+              cardViewDesign("    Verify \nCertificate",'assets/images/quality.png'),  // CardView Design 2
+            ],
+          ),
         ),
       ),
     );
@@ -57,6 +67,7 @@ class _homeScreenState extends State<homeScreen> {
       height: MediaQuery.of(context).size.height*0.25,
       padding: const EdgeInsets.all(10.0),
 
+
       child: GestureDetector(
         onTap: () {
           Navigator.push(
@@ -66,44 +77,56 @@ class _homeScreenState extends State<homeScreen> {
               ));
         } ,
         child: Card(
-
           shape:
           RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0),
+            borderRadius: BorderRadius.circular(15.0),
             side: BorderSide(
-              color: Colors.grey.withOpacity(0.2),
+              color: Colors.blue.withOpacity(0.8),
               width: 2,
             ),
           ),
           color: Colors.white,
-          elevation: 8,
-          child: Stack(
-            children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 12.0),
-              child: Image.asset('assets/images/ribbon.png',
-              height: MediaQuery.of(context).size.height*0.09,
-              width:  MediaQuery.of(context).size.height*0.05,),
-            ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children:  [
-                      Text(text,
-                      style: const TextStyle(color: Colors.grey,fontSize: 25,fontWeight: FontWeight.bold),)
-                    ],
-                  ),
-                ],
+          elevation: 10,
+          child: Container(
+
+            decoration:  const BoxDecoration(color: Colors.white ,
+              borderRadius: BorderRadius.all(Radius.circular(15)),
+              image: DecorationImage(
+                image: AssetImage("assets/images/bg1.jpg"),
+                fit: BoxFit.cover,
               ),
-              Align(
-                  alignment: Alignment.bottomRight,
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 5.0,bottom: 5.0),
-                    child: Image.asset(imagePath),
-                  ))
-            ],
+            ),
+            child: Stack(
+              children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 12.0),
+                child: Image.asset('assets/images/ribbon.png',
+                height: MediaQuery.of(context).size.height*0.09,
+                width:  MediaQuery.of(context).size.height*0.05,),
+              ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children:  [
+                        Text(text,
+                        style: const TextStyle(color: Colors.blueGrey,
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+                Align(
+                    alignment: Alignment.bottomRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 5.0,bottom: 5.0),
+                      child: Image.asset(imagePath),
+                    ))
+              ],
+            ),
           )
         ),
       ),
@@ -127,41 +150,52 @@ class _homeScreenState extends State<homeScreen> {
         child: Card(
             shape:
             RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0),
+              borderRadius: BorderRadius.circular(15.0),
               side: BorderSide(
-                color: Colors.grey.withOpacity(0.2),
+                color: Colors.blue.withOpacity(0.8),
                 width: 2,
               ),
             ),
             color: Colors.white,
-             elevation: 8,
-            child: Stack(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 12.0),
-                  child: Image.asset('assets/images/ribbon.png',
-                    height: MediaQuery.of(context).size.height*0.09,
-                    width:  MediaQuery.of(context).size.height*0.05,),
+             elevation: 10,
+            child: Container(
+              decoration:  const BoxDecoration(color: Colors.white ,
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                image: DecorationImage(
+                  image: AssetImage("assets/images/bg1.jpg"),
+                  fit: BoxFit.cover,
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children:  [
-                        Text(text,
-                          style: const TextStyle(color: Colors.grey,fontSize: 25,fontWeight: FontWeight.bold),)
-                      ],
-                    ),
-                  ],
-                ),
-                Align(
-                    alignment: Alignment.bottomRight,
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 5.0,bottom: 5.0),
-                      child: Image.asset(imagePath),
-                    ))
-              ],
+              ),
+              child: Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 12.0),
+                    child: Image.asset('assets/images/ribbon.png',
+                      height: MediaQuery.of(context).size.height*0.09,
+                      width:  MediaQuery.of(context).size.height*0.05,),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children:  [
+                          Text(text,
+                            style: const TextStyle(color: Colors.blueGrey,
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold),)
+                        ],
+                      ),
+                    ],
+                  ),
+                  Align(
+                      alignment: Alignment.bottomRight,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5.0,bottom: 5.0),
+                        child: Image.asset(imagePath),
+                      ))
+                ],
+              ),
             )
         ),
       ),
