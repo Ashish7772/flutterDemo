@@ -29,6 +29,7 @@ dependencies:
   syncfusion_flutter_pdfviewer: ^20.1.50-beta
   file_picker: ^4.5.1
   csv: ^5.0.1
+  open_file: ^3.2.1
 
 flutter_app_name:
   name: "Protean RC"
@@ -48,3 +49,4 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/

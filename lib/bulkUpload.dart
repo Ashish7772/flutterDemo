@@ -1,9 +1,10 @@
 import 'dart:convert';
-import 'dart:html';
+import 'dart:io';
 
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show SystemUiOverlayStyle, rootBundle;
+
 import 'package:csv/csv.dart';
 
 class bulkUpload extends StatefulWidget {
@@ -14,8 +15,13 @@ class bulkUpload extends StatefulWidget {
 }
 
 class _bulkUploadState extends State<bulkUpload> {
+  List<List<dynamic>> _data = [];
+   String? filePath;
+  // This function is triggered when the  button is pressed
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         systemOverlayStyle: const SystemUiOverlayStyle(
@@ -30,33 +36,77 @@ class _bulkUploadState extends State<bulkUpload> {
               fontSize: 20.0,)
         ),
       ),
-        body: SingleChildScrollView(
-        child: Column(
-            children: <Widget>[
-              ElevatedButton(onPressed: (){
+        body: Column(
+          children: [
+            ElevatedButton(
+            child: const Text("Upload FIle"),
+              onPressed:(){
+               _pickFile();
+              },
+            ),
 
-              }, child:const Text("Upload File"))
+            ListView.builder(
+              itemCount: _data.length,
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              itemBuilder: (_, index) {
+                return Card(
+                  margin: const EdgeInsets.all(3),
+                  color: index == 0 ? Colors.amber : Colors.white,
+                  child: ListTile(
+                    leading: Text(_data[index][0].toString(),textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: index == 0 ? 18 : 15, fontWeight:index == 0 ? FontWeight.bold :FontWeight.normal,color: index == 0 ? Colors.red : Colors.black),),
+                    title: Text(_data[index][3],textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: index == 0 ? 18 : 15, fontWeight: index == 0 ? FontWeight.bold :FontWeight.normal,color: index == 0 ? Colors.red : Colors.black),),
+                    trailing: Text(_data[index][4].toString(),textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: index == 0 ? 18 : 15, fontWeight: index == 0 ? FontWeight.bold : FontWeight.normal,color: index == 0 ? Colors.red : Colors.black),),
 
-            ],
-        ),
-    )
+                  ),
+
+                );
+
+              },
+
+            ),
+            ElevatedButton(
+              child: const Text("Generate Certificate"),
+              onPressed:(){
+
+              },
+            ),
+          ],
+        )
     );
 
   }
-  //
-  // pickFile() async {
-  //   FilePickerResult? result = await FilePicker.platform.pickFiles();
-  //   if (result != null) {
-  //     PlatformFile file = result.files.first;
-  //
-  //     final input = File(file.path).openRead();
-  //     final fields = await input
-  //         .transform(utf8.decoder)
-  //         .transform(new CsvToListConverter())
-  //         .toList();
-  //
-  //     print(fields);
-  //   }
-  // }
+
+  void _pickFile() async {
+
+    final result = await FilePicker.platform.pickFiles(allowMultiple: false);
+
+    // if no file is picked
+    if (result == null) return;
+
+    // we will log the name, size and path of the
+    // first picked file (if multiple are selected)
+    print(result.files.first.name);
+    print(result.files.first.size);
+    print(result.files.first.path);
+    filePath = result.files.first.path!;
+  //  _loadCSV(filePath!);
+   // PlatformFile file = result.files.first;
+
+
+    final input = File(filePath!).openRead();
+    final fields = await input
+        .transform(utf8.decoder)
+        .transform(const CsvToListConverter())
+        .toList();
+
+    print(fields);
+      setState(() {
+        _data = fields;
+      });
+  }
 
 }
