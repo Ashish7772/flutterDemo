@@ -61,6 +61,21 @@ class _issueCertificateState extends State<issueCertificate> {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: <Widget>[
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const bulkUpload(),
+                        ));
+                  },
+                    child: const Text("+ Bulk Upload",
+                    style: TextStyle(fontSize: 20),),),
+                ],
+              ),
               textfieldDesign("Membership Number",membershipController,Icons.people_outline),
               const SizedBox(
                 height: 20,
@@ -187,12 +202,12 @@ class _issueCertificateState extends State<issueCertificate> {
                         //      print("result  ${json.decode(result)} ");
                         String result2 = await ApiServices().postresponseforpdf(json.encode(result));
                         print("result2  ${result2} ");
-
-                        await convert(result2);
+                        String certificateName = membershipController.text+"_"+nameController.text;
+                        await convert(result2,certificateName);
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => CertificateDownload(certificateData: result2,),
+                              builder: (context) => CertificateDownload(certificateData: certificateName,),
                             ));
                       },
 
@@ -202,14 +217,6 @@ class _issueCertificateState extends State<issueCertificate> {
                   ),
                 ),
               ),
-              TextButton(onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const bulkUpload(),
-                    ));
-              },
-                child: const Text("Bulk Upload"),)
             ],
 
           ),
@@ -652,10 +659,10 @@ class _issueCertificateState extends State<issueCertificate> {
     }
   }
 
-  convert( String cfData) async {
+  convert( String cfData,String name) async {
 
     var targetPath = await _localPath;
-    var targetFileName = "Certificate_pdf_file";
+    var targetFileName = name;
 
     var generatedPdfFile = await FlutterHtmlToPdf.convertFromHtmlContent(
         cfData, targetPath!, targetFileName);

@@ -33,7 +33,7 @@ class _CertificateDownloadState extends State<CertificateDownload> {
         ),
 
         body:SfPdfViewer.file(
-            File('storage/emulated/0/Download/Certificate_pdf_file.pdf'))
+            File('storage/emulated/0/Download/'+cfData+'.pdf'))
 
         // SingleChildScrollView(
         //   child: Column(
