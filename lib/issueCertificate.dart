@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:demo/ApiService.dart';
 import 'package:demo/bulkUpload.dart';
 import 'package:demo/certificateDownload.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html_to_pdf/flutter_html_to_pdf.dart';
@@ -32,6 +31,7 @@ class _issueCertificateState extends State<issueCertificate> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController examController = TextEditingController();
 
+  bool loading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,7 +65,10 @@ class _issueCertificateState extends State<issueCertificate> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  TextButton(onPressed: () {
+                  loading
+                      ? const Center(child: Text("Certificate Generation is in process...",
+            style: TextStyle(fontSize: 20,color: Colors.blue)),)
+                      :TextButton(onPressed: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -111,7 +114,7 @@ class _issueCertificateState extends State<issueCertificate> {
                           hintStyle: const TextStyle(
                             color: Colors.black,
                           ),
-                          border: OutlineInputBorder(),
+                          border: const OutlineInputBorder(),
                           focusedBorder:const OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.blue, width: 2.0),
 
@@ -155,8 +158,14 @@ class _issueCertificateState extends State<issueCertificate> {
                 child: SizedBox(
                   height: 53,
                   width: double.infinity,
-                  child: ElevatedButton(
+                  child: loading
+                      ? Center(child: CircularProgressIndicator())
+                      : ElevatedButton(
                       onPressed: ()async{
+                        setState((){
+                          loading = true;
+                        }); // set loading to true here
+
                         var mydata = {
                           "data": {
                             "certificateType": "ProofOfEducation",
@@ -202,8 +211,14 @@ class _issueCertificateState extends State<issueCertificate> {
                         //      print("result  ${json.decode(result)} ");
                         String result2 = await ApiServices().postresponseforpdf(json.encode(result));
                         print("result2  ${result2} ");
-                        String certificateName = membershipController.text+"_"+nameController.text;
+                        String date = DateTime.now().year.toString()+"_"+DateTime.now().month.toString()+"_"+DateTime.now().day.toString()+"_"+DateTime.now().hour.toString()+"_"+DateTime.now().minute.toString()+"_"+DateTime.now().second.toString();
+
+                        String certificateName = membershipController.text+"_"+date;
                         await convert(result2,certificateName);
+
+                        setState((){
+                          loading = false;
+                        });
                         Navigator.push(
                             context,
                             MaterialPageRoute(

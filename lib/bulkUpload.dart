@@ -21,6 +21,7 @@ class bulkUpload extends StatefulWidget {
 class _bulkUploadState extends State<bulkUpload> {
   List<List<dynamic>> _data = [];
    String? filePath;
+  bool loading = false;
   // This function is triggered when the  button is pressed
 
   @override
@@ -42,6 +43,23 @@ class _bulkUploadState extends State<bulkUpload> {
       ),
         body: Column(
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(onPressed: () async {
+                  var targetPath = await _localPath;
+
+                  File file2 = File(targetPath.toString()+"/issue_bulk_certificate_template.csv");
+                  await file2.writeAsString('MEM No.,REG No.,Ser No.,BC Name,BC Exam,Date(YYYY-MM-DDThh:mm:ss.fffZ)');
+
+                  ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
+                    content: Text("File Downloaded at  /storage/emulated/0/Download/issue_bulk_certificate_template.csv"),
+                  ));
+                },
+                  child: const Text("Download bulk_certificate_template.csv",
+                    style: TextStyle(fontSize: 20),),),
+              ],
+            ),
             ElevatedButton(
             child: const Text("Upload FIle"),
               onPressed:(){
@@ -72,61 +90,77 @@ class _bulkUploadState extends State<bulkUpload> {
               },
 
             ),
-            ElevatedButton(
-              child: const Text("Generate Certificate"),
-              onPressed:() async {
-                for (var element in _data) {
+            Container(
+              child: loading
+                  ? Center(child: CircularProgressIndicator())
+                  : ElevatedButton(
+                onPressed: ()async{
+                  setState((){
+                    loading = true;
+                  }); // set loading to true here
 
-                  var mydata = {
-                    "data": {
-                      "certificateType": "ProofOfEducation",
-                      "membershipNum": element[0],
-                      "registrationNum": element[1],
-                      "serialNum": element[2],
-                      "bcName": element[3],
-                      "bcExam": element[4],
-                      "date":element[5]
-                    },
-                    "credentialTemplate": {
-                      "@context": [
-                        "https://www.w3.org/2018/credentials/v1",
-                        "https://gist.githubusercontent.com/rashmigandre/31e21b34d7ae174e64b6809db63da3b3/raw/fe26ccb438d5841c684f312e429b9bf2bbaf5659/proof-of-education-vc.json"
-                      ],
-                      "type": [
-                        "VerifiableCredential"
-                      ],
-                      "issuanceDate": element[5],
-                      "credentialSubject": {
-                        "type": "Person",
-                        "name": element[3]
+                  for (var element in _data.skip(1))
+                  {
+
+                    var mydata = {
+                      "data": {
+                        "certificateType": "ProofOfEducation",
+                        "membershipNum": element[0],
+                        "registrationNum": element[1],
+                        "serialNum": element[2],
+                        "bcName": element[3],
+                        "bcExam": element[4],
+                        "date":element[5]
                       },
-                      "evidence": [
-                        {
-                          "type": [
-                            "Certificate"
-                          ],
-                          "certificateType": "ProofOfEducation",
-                          "membershipNum": element[0],
-                          "registrationNum": element[1],
-                          "serialNum": element[2],
-                          "bcName": element[3],
-                          "bcExam": element[4],
-                          "date":element[5]
-                        }
-                      ],
-                      "issuer": "did:issuer:protean"
-                    }
-                  };
+                      "credentialTemplate": {
+                        "@context": [
+                          "https://www.w3.org/2018/credentials/v1",
+                          "https://gist.githubusercontent.com/rashmigandre/31e21b34d7ae174e64b6809db63da3b3/raw/fe26ccb438d5841c684f312e429b9bf2bbaf5659/proof-of-education-vc.json"
+                        ],
+                        "type": [
+                          "VerifiableCredential"
+                        ],
+                        "issuanceDate": element[5],
+                        "credentialSubject": {
+                          "type": "Person",
+                          "name": element[3]
+                        },
+                        "evidence": [
+                          {
+                            "type": [
+                              "Certificate"
+                            ],
+                            "certificateType": "ProofOfEducation",
+                            "membershipNum": element[0],
+                            "registrationNum": element[1],
+                            "serialNum": element[2],
+                            "bcName": element[3],
+                            "bcExam": element[4],
+                            "date":element[5]
+                          }
+                        ],
+                        "issuer": "did:issuer:protean"
+                      }
+                    };
 
-                  String result = await ApiServices().postData(mydata);
-                  //      print("result  ${json.decode(result)} ");
-                  String result2 = await ApiServices().postresponseforpdf(json.encode(result));
-                  print("result2  ${result2} ");
+                    String result = await ApiServices().postData(mydata);
+                    //      print("result  ${json.decode(result)} ");
+                    String result2 = await ApiServices().postresponseforpdf(json.encode(result));
+                    print("result2  ${result2} ");
 
-                  await convert(result2,element[0]+"_"+element[3]);
-                  print(element[1]);
-                }
-              },
+                    String date = DateTime.now().year.toString()+"_"+DateTime.now().month.toString()+"_"+DateTime.now().day.toString()+"_"+DateTime.now().hour.toString()+"_"+DateTime.now().minute.toString()+"_"+DateTime.now().second.toString();
+                    await convert(result2,element[0]+"_"+date);
+                    setState((){
+                      loading = false;
+                    });
+                    print(element[1]);
+                  }
+                  ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
+                    content: Text("File Downloaded at  /storage/emulated/0/Download/"),
+                  ));
+                }, child: const Text("Generate Certificate"),
+
+              ),
             ),
           ],
         )
@@ -174,9 +208,7 @@ class _bulkUploadState extends State<bulkUpload> {
     var generatedPdfFile = await FlutterHtmlToPdf.convertFromHtmlContent(
         cfData, targetPath!, targetFileName);
     print(generatedPdfFile);
-    ScaffoldMessenger.of(context).showSnackBar( SnackBar(
-      content: Text(generatedPdfFile.toString()),
-    ));
+
   }
 
   Future<String?> get _localPath async {
