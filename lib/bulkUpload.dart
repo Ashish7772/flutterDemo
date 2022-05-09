@@ -52,8 +52,8 @@ class _bulkUploadState extends State<bulkUpload> {
                   File file2 = File(targetPath.toString()+"/issue_bulk_certificate_template.csv");
                   await file2.writeAsString('MEM No.,REG No.,Ser No.,BC Name,BC Exam,Date(YYYY-MM-DDThh:mm:ss.fffZ)');
 
-                  ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
-                    content: Text("File Downloaded at  /storage/emulated/0/Download/issue_bulk_certificate_template.csv"),
+                  ScaffoldMessenger.of(context).showSnackBar( SnackBar(
+                    content: Text("File Downloaded at "+file2.path.toString()),
                   ));
                 },
                   child: const Text("Download bulk_certificate_template.csv",
