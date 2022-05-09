@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:demo/ApiService.dart';
 import 'package:demo/bulkUpload.dart';
 import 'package:demo/certificateDownload.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html_to_pdf/flutter_html_to_pdf.dart';
@@ -124,20 +125,23 @@ class _issueCertificateState extends State<issueCertificate> {
                               Icons.calendar_today,
                             ),
 
-                            onPressed: () {
-                              showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime(2000),
-                                lastDate: (new DateTime.now()).add(new Duration(days: 7)
-                                ),
-                              ).then((value){
-                                setState(() {
-                                  selectedDate = value!;
-                                  showDate = selectedDate.toString().split(' ')[0];
-                                  print(selectedDate);
-                                });
-                              });
+                            onPressed: ()
+                            {
+                              _showCupertinoDatePicker(context);
+
+                              // showDatePicker(
+                              //   context: context,
+                              //   initialDate: DateTime.now(),
+                              //   firstDate: DateTime(2000),
+                              //   lastDate: (DateTime.now()).add(Duration(days: 7)
+                              //   ),
+                              // ).then((value){
+                              //   setState(() {
+                              //     selectedDate = value!;
+                              //     showDate = selectedDate.toString().split(' ')[0];
+                              //     print(selectedDate);
+                              //   });
+                              // });
                             },
                           ),
                         ),
@@ -700,6 +704,29 @@ class _issueCertificateState extends State<issueCertificate> {
       print("Can-not get download folder path");
     }
     return directory?.path;
+  }
+
+  void _showCupertinoDatePicker(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context){
+          return Container(
+            height: MediaQuery.of(context).size.height*0.3,
+            child: CupertinoDatePicker(
+              initialDateTime: DateTime.now(),
+              onDateTimeChanged: (DateTime newDate){
+                  setState(() {
+                    selectedDate = newDate;
+                    showDate = selectedDate.toString().split(' ')[0];
+                    print(selectedDate);
+                  });
+              },
+              minimumYear: 2015,
+              maximumYear: 2050,
+              mode: CupertinoDatePickerMode.dateAndTime,
+            ),
+          );
+        });
   }
 }
 
