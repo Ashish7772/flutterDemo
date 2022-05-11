@@ -1,7 +1,5 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:io';
-
 import 'package:demo/ApiService.dart';
 import 'package:demo/bulkUpload.dart';
 import 'package:demo/certificateDownload.dart';
@@ -24,7 +22,7 @@ class _issueCertificateState extends State<issueCertificate> {
   File? pickedImage;
   File? pickedAuth1;
   File? pickedAuth2;
-  DateTime selectedDate = DateTime.now() ;
+  DateTime selectedDate = DateTime.now();
   String showDate = "Select a Date";
   final TextEditingController membershipController = TextEditingController();
   final TextEditingController registrationController = TextEditingController();
@@ -36,7 +34,7 @@ class _issueCertificateState extends State<issueCertificate> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset : false,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         systemOverlayStyle: const SystemUiOverlayStyle(
           // Status bar color
@@ -46,14 +44,16 @@ class _issueCertificateState extends State<issueCertificate> {
           statusBarBrightness: Brightness.light, // For iOS (dark icons)
         ),
         title: const Text("Issue Certificate",
-            style: TextStyle(color: Colors.white,
-              fontSize: 20.0,)
-        ),
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20.0,
+            )),
       ),
       body: SingleChildScrollView(
         child: Container(
-          height : MediaQuery.of(context).size.height,
-          decoration:  const BoxDecoration(color: Colors.white ,
+          height: MediaQuery.of(context).size.height,
+          decoration: const BoxDecoration(
+            color: Colors.white,
             image: DecorationImage(
               image: AssetImage("assets/images/bg1.jpg"),
               fit: BoxFit.cover,
@@ -62,41 +62,50 @@ class _issueCertificateState extends State<issueCertificate> {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: <Widget>[
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   loading
-                      ? const Center(child: Text("Certificate Generation is in process...",
-            style: TextStyle(fontSize: 20,color: Colors.blue)),)
-                      :TextButton(onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const bulkUpload(),
-                        ));
-                  },
-                    child: const Text("+ Bulk Upload",
-                    style: TextStyle(fontSize: 20),),),
+                      ? const Center(
+                          child: Text("Certificate Generation is in process...",
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.blue)),
+                        )
+                      : TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const bulkUpload(),
+                                ));
+                          },
+                          child: const Text(
+                            "+ Bulk Upload",
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ),
                 ],
               ),
-              textfieldDesign("Membership Number",membershipController,Icons.people_outline),
+              textfieldDesign("Membership Number", membershipController,
+                  Icons.people_outline),
               const SizedBox(
                 height: 20,
               ),
-              textfieldDesign("Registration Number",registrationController,Icons.people_outline),
+              textfieldDesign("Registration Number", registrationController,
+                  Icons.people_outline),
               const SizedBox(
                 height: 20,
               ),
-              textfieldDesign(" Serial Number",serialController,Icons.numbers_outlined),
+              textfieldDesign(
+                  " Serial Number", serialController, Icons.numbers_outlined),
               const SizedBox(
                 height: 20,
               ),
-              textfieldDesign("BC Name",nameController,Icons.person_outlined ),
+              textfieldDesign("BC Name", nameController, Icons.person_outlined),
               const SizedBox(
                 height: 20,
               ),
-              textfieldDesign("BC Exam",examController,Icons.book_outlined ),
+              textfieldDesign("BC Exam", examController, Icons.book_outlined),
               const SizedBox(
                 height: 20,
               ),
@@ -104,49 +113,46 @@ class _issueCertificateState extends State<issueCertificate> {
                 height: 53,
                 width: double.infinity,
                 child: Container(
-                    alignment: Alignment.centerLeft,
-                    child: TextField(
-                      readOnly: true,
+                  alignment: Alignment.centerLeft,
+                  child: TextField(
+                    readOnly: true,
 
-                      //  onChanged: (value) {trxnProvider.changecontractDate(value);
-                        //,loggedInUid);},
-                        decoration: InputDecoration(
-                          hintText: showDate,
-                          hintStyle: const TextStyle(
-                            color: Colors.black,
-                          ),
-                          border: const OutlineInputBorder(),
-                          focusedBorder:const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.blue, width: 2.0),
-
-                          ),
-                          suffixIcon: IconButton(
-                            icon: const Icon(
-                              Icons.calendar_today,
-                            ),
-
-                            onPressed: ()
-                            {
-                              _showCupertinoDatePicker(context);
-
-                              // showDatePicker(
-                              //   context: context,
-                              //   initialDate: DateTime.now(),
-                              //   firstDate: DateTime(2000),
-                              //   lastDate: (DateTime.now()).add(Duration(days: 7)
-                              //   ),
-                              // ).then((value){
-                              //   setState(() {
-                              //     selectedDate = value!;
-                              //     showDate = selectedDate.toString().split(' ')[0];
-                              //     print(selectedDate);
-                              //   });
-                              // });
-                            },
-                          ),
+                    //  onChanged: (value) {trxnProvider.changecontractDate(value);
+                    //,loggedInUid);},
+                    decoration: InputDecoration(
+                      hintText: showDate,
+                      hintStyle: const TextStyle(
+                        color: Colors.black,
+                      ),
+                      border: const OutlineInputBorder(),
+                      focusedBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue, width: 2.0),
+                      ),
+                      suffixIcon: IconButton(
+                        icon: const Icon(
+                          Icons.calendar_today,
                         ),
-                          ),
-                              ),
+                        onPressed: () {
+                          _showCupertinoDatePicker(context);
+
+                          // showDatePicker(
+                          //   context: context,
+                          //   initialDate: DateTime.now(),
+                          //   firstDate: DateTime(2000),
+                          //   lastDate: (DateTime.now()).add(Duration(days: 7)
+                          //   ),
+                          // ).then((value){
+                          //   setState(() {
+                          //     selectedDate = value!;
+                          //     showDate = selectedDate.toString().split(' ')[0];
+                          //     print(selectedDate);
+                          //   });
+                          // });
+                        },
+                      ),
+                    ),
+                  ),
+                ),
               ),
               const SizedBox(
                 height: 20,
@@ -158,94 +164,107 @@ class _issueCertificateState extends State<issueCertificate> {
                 height: 20,
               ),
               Padding(
-                padding: const EdgeInsets.only(bottom:5.0),
+                padding: const EdgeInsets.only(bottom: 5.0),
                 child: SizedBox(
                   height: 53,
                   width: double.infinity,
                   child: loading
                       ? Center(child: CircularProgressIndicator())
                       : ElevatedButton(
-                      onPressed: ()async{
-                        setState((){
-                          loading = true;
-                        }); // set loading to true here
+                          onPressed: () async {
+                            setState(() {
+                              loading = true;
+                            }); // set loading to true here
 
-                        var mydata = {
-                          "data": {
-                            "certificateType": "ProofOfEducation",
-                            "membershipNum": membershipController.text,
-                            "registrationNum": registrationController.text,
-                            "serialNum": serialController.text,
-                            "bcName": nameController.text,
-                            "bcExam": examController.text,
-                            "date": "${selectedDate.toIso8601String().toString()}Z"
-                          },
-                          "credentialTemplate": {
-                            "@context": [
-                              "https://www.w3.org/2018/credentials/v1",
-                              "https://gist.githubusercontent.com/rashmigandre/31e21b34d7ae174e64b6809db63da3b3/raw/fe26ccb438d5841c684f312e429b9bf2bbaf5659/proof-of-education-vc.json"
-                            ],
-                            "type": [
-                              "VerifiableCredential"
-                            ],
-                            "issuanceDate": "${selectedDate.toIso8601String().toString()}Z",
-                            "credentialSubject": {
-                              "type": "Person",
-                              "name": nameController.text
-                            },
-                            "evidence": [
-                              {
-                                "type": [
-                                  "Certificate"
-                                ],
+                            var mydata = {
+                              "data": {
                                 "certificateType": "ProofOfEducation",
                                 "membershipNum": membershipController.text,
                                 "registrationNum": registrationController.text,
                                 "serialNum": serialController.text,
                                 "bcName": nameController.text,
                                 "bcExam": examController.text,
-                                "date": "${selectedDate.toIso8601String().toString()}Z"
+                                "date":
+                                    "${selectedDate.toIso8601String().toString()}Z"
+                              },
+                              "credentialTemplate": {
+                                "@context": [
+                                  "https://www.w3.org/2018/credentials/v1",
+                                  "https://gist.githubusercontent.com/rashmigandre/31e21b34d7ae174e64b6809db63da3b3/raw/fe26ccb438d5841c684f312e429b9bf2bbaf5659/proof-of-education-vc.json"
+                                ],
+                                "type": ["VerifiableCredential"],
+                                "issuanceDate":
+                                    "${selectedDate.toIso8601String().toString()}Z",
+                                "credentialSubject": {
+                                  "type": "Person",
+                                  "name": nameController.text
+                                },
+                                "evidence": [
+                                  {
+                                    "type": ["Certificate"],
+                                    "certificateType": "ProofOfEducation",
+                                    "membershipNum": membershipController.text,
+                                    "registrationNum":
+                                        registrationController.text,
+                                    "serialNum": serialController.text,
+                                    "bcName": nameController.text,
+                                    "bcExam": examController.text,
+                                    "date":
+                                        "${selectedDate.toIso8601String().toString()}Z"
+                                  }
+                                ],
+                                "issuer": "did:issuer:protean"
                               }
-                            ],
-                            "issuer": "did:issuer:protean"
-                          }
-                        };
+                            };
 
-                        String result = await ApiServices().postData(mydata);
-                        //      print("result  ${json.decode(result)} ");
-                        String result2 = await ApiServices().postresponseforpdf(json.encode(result));
-                        print("result2  ${result2} ");
-                        String date = DateTime.now().year.toString()+"_"+DateTime.now().month.toString()+"_"+DateTime.now().day.toString()+"_"+DateTime.now().hour.toString()+"_"+DateTime.now().minute.toString()+"_"+DateTime.now().second.toString();
+                            String result =
+                                await ApiServices().postData(mydata);
+                            //      print("result  ${json.decode(result)} ");
+                            String result2 = await ApiServices()
+                                .postresponseforpdf(json.encode(result));
+                            print("result2  ${result2} ");
+                            String date = DateTime.now().year.toString() +
+                                "_" +
+                                DateTime.now().month.toString() +
+                                "_" +
+                                DateTime.now().day.toString() +
+                                "_" +
+                                DateTime.now().hour.toString() +
+                                "_" +
+                                DateTime.now().minute.toString() +
+                                "_" +
+                                DateTime.now().second.toString();
 
-                        String certificateName = membershipController.text+"_"+date;
-                        await convert(result2,certificateName);
-
-                        setState((){
-                          loading = false;
-                        });
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => CertificateDownload(certificateData: certificateName,),
-                            ));
-                      },
-
-                      child: const Text('Generate Certificate',
-                          style: TextStyle(color: Colors.white,
-                        fontSize: 20.0,))
-                  ),
+                            String certificateName =
+                                membershipController.text + "_" + date;
+                            await convert(result2, certificateName);
+                            var targetPath2 = await _localPath;
+                            setState(() {
+                              loading = false;
+                            });
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CertificateDownload(
+                                    certificateData: certificateName,certificatePath: targetPath2.toString(),
+                                  ),
+                                ));
+                          },
+                          child: const Text('Generate Certificate',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20.0,
+                              ))),
                 ),
               ),
             ],
-
           ),
-
         ),
       ),
     );
   }
-  imageUploadDesign(String imageHint)
-  {
+
+  imageUploadDesign(String imageHint) {
     return Column(
       // crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -265,20 +284,19 @@ class _issueCertificateState extends State<issueCertificate> {
                 child: Stack(
                   children: [
                     ClipOval(
-                      child:
-                      pickedImage != null
+                      child: pickedImage != null
                           ? Image.file(
-                        pickedImage!,
-                        width: 50,
-                        height: 50,
-                        fit: BoxFit.cover,
-                      )
+                              pickedImage!,
+                              width: 50,
+                              height: 50,
+                              fit: BoxFit.cover,
+                            )
                           : Image.asset(
-                        'assets/images/protean_logo.jpg',
-                        width: 50,
-                        height: 50,
-                        fit: BoxFit.cover,
-                      ),
+                              'assets/images/protean_logo.jpg',
+                              width: 50,
+                              height: 50,
+                              fit: BoxFit.cover,
+                            ),
                     ),
                     Positioned(
                       bottom: -15,
@@ -298,21 +316,21 @@ class _issueCertificateState extends State<issueCertificate> {
               const SizedBox(
                 width: 20,
               ),
-              Text(imageHint
-                ,style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),)
-
+              Text(
+                imageHint,
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+              )
             ],
           ),
         ),
         const SizedBox(
           height: 20,
         ),
-
       ],
     );
   }
-  imageUploadDesign1(String imageHint)
-  {
+
+  imageUploadDesign1(String imageHint) {
     return Column(
       // crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -332,20 +350,19 @@ class _issueCertificateState extends State<issueCertificate> {
                 child: Stack(
                   children: [
                     ClipOval(
-                      child:
-                      pickedAuth1 != null
+                      child: pickedAuth1 != null
                           ? Image.file(
-                        pickedAuth1!,
-                        width: 50,
-                        height: 50,
-                        fit: BoxFit.cover,
-                      )
+                              pickedAuth1!,
+                              width: 50,
+                              height: 50,
+                              fit: BoxFit.cover,
+                            )
                           : Image.asset(
-                        'assets/images/protean_logo.jpg',
-                        width: 50,
-                        height: 50,
-                        fit: BoxFit.cover,
-                      ),
+                              'assets/images/protean_logo.jpg',
+                              width: 50,
+                              height: 50,
+                              fit: BoxFit.cover,
+                            ),
                     ),
                     Positioned(
                       bottom: -15,
@@ -365,21 +382,21 @@ class _issueCertificateState extends State<issueCertificate> {
               const SizedBox(
                 width: 20,
               ),
-              Text(imageHint
-                ,style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),)
-
+              Text(
+                imageHint,
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+              )
             ],
           ),
         ),
         const SizedBox(
           height: 20,
         ),
-
       ],
     );
   }
-  imageUploadDesign2(String imageHint)
-  {
+
+  imageUploadDesign2(String imageHint) {
     return Column(
       // crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -399,20 +416,19 @@ class _issueCertificateState extends State<issueCertificate> {
                 child: Stack(
                   children: [
                     ClipOval(
-                      child:
-                      pickedAuth2 != null
+                      child: pickedAuth2 != null
                           ? Image.file(
-                        pickedAuth2!,
-                        width: 50,
-                        height: 50,
-                        fit: BoxFit.cover,
-                      )
+                              pickedAuth2!,
+                              width: 50,
+                              height: 50,
+                              fit: BoxFit.cover,
+                            )
                           : Image.asset(
-                        'assets/images/protean_logo.jpg',
-                        width: 50,
-                        height: 50,
-                        fit: BoxFit.cover,
-                      ),
+                              'assets/images/protean_logo.jpg',
+                              width: 50,
+                              height: 50,
+                              fit: BoxFit.cover,
+                            ),
                     ),
                     Positioned(
                       bottom: -15,
@@ -432,21 +448,22 @@ class _issueCertificateState extends State<issueCertificate> {
               const SizedBox(
                 width: 20,
               ),
-              Text(imageHint
-                ,style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),)
-
+              Text(
+                imageHint,
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+              )
             ],
           ),
         ),
         const SizedBox(
           height: 20,
         ),
-
       ],
     );
   }
-  textfieldDesign(String hintText,controller,IconData icon) {
-    return      Container(
+
+  textfieldDesign(String hintText, controller, IconData icon) {
+    return Container(
       margin: EdgeInsets.only(top: 10),
       child: TextField(
         controller: controller,
@@ -458,9 +475,8 @@ class _issueCertificateState extends State<issueCertificate> {
             color: Colors.black,
           ),
           border: OutlineInputBorder(),
-          focusedBorder:const OutlineInputBorder(
+          focusedBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.blue, width: 2.0),
-
           ),
         ),
       ),
@@ -523,6 +539,7 @@ class _issueCertificateState extends State<issueCertificate> {
       ),
     );
   }
+
   void imagePickerOption1() {
     Get.bottomSheet(
       SingleChildScrollView(
@@ -579,6 +596,7 @@ class _issueCertificateState extends State<issueCertificate> {
       ),
     );
   }
+
   void imagePickerOption2() {
     Get.bottomSheet(
       SingleChildScrollView(
@@ -635,6 +653,7 @@ class _issueCertificateState extends State<issueCertificate> {
       ),
     );
   }
+
   pickImage(ImageSource imageType) async {
     try {
       final photo = await ImagePicker().pickImage(source: imageType);
@@ -649,6 +668,7 @@ class _issueCertificateState extends State<issueCertificate> {
       debugPrint(error.toString());
     }
   }
+
   pickImage1(ImageSource imageType) async {
     try {
       final photo = await ImagePicker().pickImage(source: imageType);
@@ -663,6 +683,7 @@ class _issueCertificateState extends State<issueCertificate> {
       debugPrint(error.toString());
     }
   }
+
   pickImage2(ImageSource imageType) async {
     try {
       final photo = await ImagePicker().pickImage(source: imageType);
@@ -678,15 +699,14 @@ class _issueCertificateState extends State<issueCertificate> {
     }
   }
 
-  convert( String cfData,String name) async {
-
+  convert(String cfData, String name) async {
     var targetPath = await _localPath;
     var targetFileName = name;
 
     var generatedPdfFile = await FlutterHtmlToPdf.convertFromHtmlContent(
         cfData, targetPath!, targetFileName);
     print(generatedPdfFile);
-    ScaffoldMessenger.of(context).showSnackBar( SnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(generatedPdfFile.toString()),
     ));
   }
@@ -695,10 +715,12 @@ class _issueCertificateState extends State<issueCertificate> {
     Directory? directory;
     try {
       if (Platform.isIOS) {
-        directory = await getApplicationDocumentsDirectory();
+        directory = await getApplicationSupportDirectory();
       } else {
         directory = Directory('/storage/emulated/0/Download');
-        if (!await directory.exists()) directory = await getExternalStorageDirectory();
+        if (!await directory.exists()) {
+          directory = await getExternalStorageDirectory();
+        }
       }
     } catch (err, stack) {
       print("Can-not get download folder path");
@@ -709,25 +731,70 @@ class _issueCertificateState extends State<issueCertificate> {
   void _showCupertinoDatePicker(BuildContext context) {
     showModalBottomSheet(
         context: context,
-        builder: (BuildContext context){
+        builder: (BuildContext context) {
           return Container(
-            height: MediaQuery.of(context).size.height*0.3,
-            child: CupertinoDatePicker(
-              initialDateTime: DateTime.now(),
-              onDateTimeChanged: (DateTime newDate){
-                  setState(() {
-                    selectedDate = newDate;
-                    showDate = selectedDate.toString().split(' ')[0];
-                    print(selectedDate);
-                  });
-              },
-              minimumYear: 2015,
-              maximumYear: 2050,
-              mode: CupertinoDatePickerMode.dateAndTime,
+            height: 250,
+            child: Column(
+              children: <Widget>[
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      CupertinoButton(
+                        child: const Text('Cancel'),
+                        onPressed: () {
+                          setState(() {
+                            selectedDate= DateTime.now();
+                            showDate = selectedDate.toString().split(' ')[0];
+                          });
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      CupertinoButton(
+                        child: const Text('Done'),
+                        onPressed: () {
+                          if(showDate=="" || showDate=="Select a Date")
+                            {
+                              setState(() {
+                                selectedDate=DateTime.now();
+                                showDate = selectedDate.toString().split(' ')[0];
+                              });
+                            }
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                const Divider(
+                  height: 0,
+                  thickness: 1,
+                ),
+                Expanded(
+                  child: Container(
+                    child:  CupertinoDatePicker(
+                  initialDateTime: DateTime.now(),
+                  onDateTimeChanged: (DateTime newDate) {
+                    setState(() {
+                      selectedDate = newDate;
+                      showDate = selectedDate.toString().split(' ')[0];
+                      print(selectedDate);
+                    });
+                  },
+                  minimumYear: 2015,
+                  maximumYear: 2050,
+                  mode: CupertinoDatePickerMode.dateAndTime,
+                ),
+                  ),
+                ),
+              ],
             ),
           );
-        });
-  }
-}
+        },
+    );
 
+  }
+
+
+  }
 

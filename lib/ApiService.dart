@@ -6,10 +6,10 @@ import 'package:http/http.dart' as http;
 
 class ApiServices{
 
-  String url = "http://192.168.1.33:4324/sign";
-  String url2 = "http://192.168.1.33:4322/api/v1/certificate";
-  String url3 = "http://192.168.1.33:4322/api/v1/unzip/certificate";
-  var url4 = "http://192.168.1.33:4324/verify";
+  String url = "http://192.168.1.38:4324/sign";
+  String url2 = "http://192.168.1.38:4322/api/v1/certificate";
+  String url3 = "http://192.168.1.38:4322/api/v1/unzip/certificate";
+  var url4 = "http://192.168.1.38:4324/verify";
   Future postData(data)async{  // Prepare Data for certification creation Api
   var data1 = json.encode(data);
      print("Create Certificate sent Data");

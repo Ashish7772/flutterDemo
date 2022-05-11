@@ -1,10 +1,6 @@
 import 'dart:convert';
-import 'dart:io';
-import 'package:demo/qrResult.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-
 import 'ApiService.dart';
 
 

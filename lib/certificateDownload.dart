@@ -6,16 +6,18 @@ import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 
 class CertificateDownload extends StatefulWidget {
-  const CertificateDownload({Key? key, required this.certificateData}) : super(key: key);
+  const CertificateDownload({Key? key, required this.certificateData, required this.certificatePath}) : super(key: key);
   final String certificateData ;
+  final String certificatePath ;
 
   @override
-  State<CertificateDownload> createState() => _CertificateDownloadState(certificateData);
+  State<CertificateDownload> createState() => _CertificateDownloadState(certificateData,certificatePath);
 }
 
 class _CertificateDownloadState extends State<CertificateDownload> {
-  _CertificateDownloadState(this.cfData);
+  _CertificateDownloadState(this.cfData,this.cfPath);
   late String cfData;
+  late String cfPath;
 
 
   @override
@@ -33,7 +35,9 @@ class _CertificateDownloadState extends State<CertificateDownload> {
         ),
 
         body:SfPdfViewer.file(
-            File('storage/emulated/0/Download/'+cfData+'.pdf'))
+          pdfFile()
+        )
+
 
         // SingleChildScrollView(
         //   child: Column(
@@ -61,31 +65,17 @@ class _CertificateDownloadState extends State<CertificateDownload> {
     );
   }
 
-  // convert( String cfData) async {
-  //
-  //   var targetPath = await _localPath;
-  //   var targetFileName = "example_pdf_file";
-  //
-  //   var generatedPdfFile = await FlutterHtmlToPdf.convertFromHtmlContent(
-  //       cfData, targetPath!, targetFileName);
-  //   print(generatedPdfFile);
-  //   ScaffoldMessenger.of(context).showSnackBar( SnackBar(
-  //     content: Text(generatedPdfFile.toString()),
-  //   ));
-  // }
-  //
-  // Future<String?> get _localPath async {
-  //   Directory? directory;
-  //   try {
-  //     if (Platform.isIOS) {
-  //       directory = await getApplicationDocumentsDirectory();
-  //     } else {
-  //       directory = Directory('/storage/emulated/0/Download');
-  //       if (!await directory.exists()) directory = await getExternalStorageDirectory();
-  //     }
-  //   } catch (err, stack) {
-  //     print("Can-not get download folder path");
-  //   }
-  //   return directory?.path;
-  // }
+  File pdfFile() {
+    if (Platform.isIOS) {
+      return File('storage/emulated/0/Download/' + cfData + '.pdf'); // for ios
+    }
+    else
+      {
+        print("aaaaa "+cfPath);
+        // File('storage/emulated/0/Download/' + cfData + '.pdf')
+        return File(cfPath+"/"+ cfData + '.pdf'); // for android
+      }
+  }
+
+
 }
