@@ -72,7 +72,7 @@ class _CertificateDownloadState extends State<CertificateDownload> {
     else
       {
         print("aaaaa "+cfPath);
-        // File('storage/emulated/0/Download/' + cfData + '.pdf')
+        // File('storage/emulated/0/Download/' + cfData + '.pdf') //
         return File(cfPath+"/"+ cfData + '.pdf'); // for android
       }
   }
