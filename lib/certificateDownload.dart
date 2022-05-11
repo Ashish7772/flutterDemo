@@ -67,7 +67,7 @@ class _CertificateDownloadState extends State<CertificateDownload> {
 
   File pdfFile() {
     if (Platform.isIOS) {
-      return File('storage/emulated/0/Download/' + cfData + '.pdf'); // for ios
+      return  File(cfPath+"/"+ cfData + '.pdf'); // for ios
     }
     else
       {
