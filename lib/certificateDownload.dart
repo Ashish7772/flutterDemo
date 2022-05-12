@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
@@ -37,31 +36,6 @@ class _CertificateDownloadState extends State<CertificateDownload> {
         body:SfPdfViewer.file(
           pdfFile()
         )
-
-
-        // SingleChildScrollView(
-        //   child: Column(
-        //     children: [
-        //
-        //       Html(data: cfData),
-        //       SizedBox(
-        //         child: ElevatedButton(
-        //           child:  const Text(
-        //             'Download PDF',
-        //             style: TextStyle(color: Colors.white),
-        //           ),
-        //           style: ButtonStyle(
-        //
-        //               backgroundColor: MaterialStateProperty.resolveWith(
-        //                       (states) => Colors.blue)),
-        //           onPressed: (){
-        //             convert(cfData);
-        //           }
-        //         ),
-        //       )
-        //     ],
-        //   ),
-        // )
     );
   }
 
@@ -72,7 +46,7 @@ class _CertificateDownloadState extends State<CertificateDownload> {
     else
       {
         print("aaaaa "+cfPath);
-        // File('storage/emulated/0/Download/' + cfData + '.pdf') //
+        // File('storage/emulated/0/Download/' + cfData + '.pdf')
         return File(cfPath+"/"+ cfData + '.pdf'); // for android
       }
   }
